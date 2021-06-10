@@ -81,9 +81,12 @@ exports.run = (bot, Discord, message, args) => {//This one actually runs the gam
             break;
 
     }
-
-    bot.Records.math(bot.StoredPlayers[0], "+", 1, `${OName}.${ZTag}`);
-    bot.Records.math(bot.StoredPlayers[1], "+", 1, `${ZName}.${OTag}`);
+    //Increment individual records
+    bot.Records.inc(bot.StoredPlayers[0], `${OName}.${ZTag}`);
+    bot.Records.inc(bot.StoredPlayers[1], `${ZName}.${OTag}`);
+    //Increment totals
+    bot.Records.inc(bot.StoredPlayers[0], `Overall.${ZTag}`);
+    bot.Records.inc(bot.StoredPlayers[1], `Overall.${OTag}`);
 
     console.log(bot.Records);
 

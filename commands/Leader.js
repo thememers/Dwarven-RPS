@@ -17,54 +17,30 @@ exports.run = (bot, Discord, message, args) => {
 
     const Seperator = `, `
 
-    let AllData = bot.Records.array()
-    //console.log(AllData)
-    for (Player in AllData){
-        let PlayerData = Object.values(AllData[Player]);
-        let StoreName = PlayerData.shift();
-        let StoreMatches = 0;
-        let StoreWins = 0;
-        let StoreLoses = 0;
-        let StoreDraws = 0;
-        for (Records in PlayerData){
-            let Match = PlayerData[Records];
-            StoreWins += Match['wins'];
-            StoreLoses += Match['loses'];
-            StoreDraws += Match['draws'];
-            StoreMatches += (StoreWins + StoreLoses + StoreDraws);
-        };
-        //This could be a function but oh well
-        //Wins
-        if (StoreWins > WinCount){
-            Winner = [StoreName];
-            WinCount = StoreWins;
-        }
-        else if (StoreWins == WinCount){
+    let Keys = Array.from(bot.Records.keys());
+
+    for (key in Keys){
+        let StoreName = bot.Records.get(Keys[key], "Name");//Get name
+        let NewData = bot.Records.get(Keys[key], "Overall");//Get the overall data
+        if (NewData["wins"] >= WinCount){
+            if (NewData["wins"] > WinCount) Winner = [];
             Winner.push(StoreName);
+            WinCount = NewData["wins"];
         };
-        //Loss
-        if (StoreLoses > LoseCount){
-            Loser = [StoreName];
-            LoseCount = StoreLoses;
-        }
-        else if (StoreLoses == LoseCount){
+        if (NewData["loses"] >= LoseCount){
+            if (NewData["loses"] > LoseCount) Loser = [];
             Loser.push(StoreName);
+            LoseCount = NewData["loses"];
         };
-        //Draws
-        if (StoreDraws > DrawCount){
-            Drawer = [StoreName];
-            DrawCount = StoreDraws;
-        }
-        else if (StoreDraws == DrawCount){
+        if (NewData["draws"] >= DrawCount){
+            if (NewData["draws"] > DrawCount) Drawer = [];
             Drawer.push(StoreName);
+            DrawCount = NewData["draws"];
         };
-        //Overall
-        if (StoreMatches > MatchCount){
-            Matcher = [StoreName];
-            MatchCount = StoreMatches;
-        }
-        else if (StoreMatches == MatchCount){
+        if (NewData["draws"] + NewData["loses"] + NewData["wins"] >= MatchCount){
+            if (NewData["draws"] + NewData["loses"] + NewData["wins"] > MatchCount) Matcher = [];
             Matcher.push(StoreName);
+            MatchCount = NewData["draws"];
         };
     }
     //Build embed

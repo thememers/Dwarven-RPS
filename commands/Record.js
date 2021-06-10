@@ -29,7 +29,7 @@ exports.run = (bot, Discord, message, args) => {
         AllKeys.shift();
         let i = 0
         for(Opponents in AllKeys){
-            if (i <= 25){
+            if (i <= 25){//This should always display total first i think
                 var Name = AllKeys[Opponents]
                 AddEmbedBlock(RecordEmbed, UserRecords[Name], "VS: " + Name);
                 i += 1;

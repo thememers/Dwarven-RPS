@@ -3,7 +3,7 @@ exports.run = (bot, Discord, message, args) => {
     let name = args[0];
 
     //Then we'll add them to the database here
-    if (!bot.Records.has(ID)){
+    if (!bot.Records.has(ID) && name.toLowerCase() != "overall"){
         try{
             let Add = {
                 [name]:{
@@ -15,7 +15,12 @@ exports.run = (bot, Discord, message, args) => {
 
             let Keys = Array.from(bot.Records.keys());
 
-            bot.Records.set(`${ID}`, {"Name" : name});
+            bot.Records.set(`${ID}`, {"Name" : name, "Overall" : {
+                    "wins": 0,
+                    "loses": 0,
+                    "draws": 0
+                }
+            });
             
             for (key in Keys) {
                 bot.Records.update(Keys[key], Add);
@@ -58,6 +63,9 @@ exports.run = (bot, Discord, message, args) => {
         {
             console.error(err);
         }
+    }
+    else if (name.toLowerCase() == "overall"){
+        message.channel.send(`Why are you like this`);
     }
     else{
         let Callout = bot.Records.get(ID, "Name")
