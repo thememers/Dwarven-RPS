@@ -5,6 +5,7 @@ const fs = require('fs');
 const Enmap = require('enmap');
 //Variable Setup
 bot.config = require("./config.json");//This is also an import but for easier access i guess??
+bot.GameData = require("./GameData.json");
 bot.CurrentInputs = []
 bot.StoredPlayers = []
 bot.Records = new Enmap("Records");
